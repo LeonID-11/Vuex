@@ -1,17 +1,29 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <p><b> Count post:</b> {{postCount}}</p>
+    <div class="post" v-for="post in allPosts" :key="post.id">
+      <h2>{{post.title}}</h2>
+      <p>{{post.body}}</p>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  computed: {
+    ...mapGetters([
+      'allPosts',
+      'postCount'
+    ]),
+  },
+  methods: {
+    ...mapActions(['fetchPost']),
+  },
+  async mounted(){
+    this.fetchPost(7);
   }
 }
 </script>
@@ -23,6 +35,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+.post{
+  width: 600px;
+  margin: 0 auto 1rem;
+  border: 1px solid #ccc;
 }
 </style>
